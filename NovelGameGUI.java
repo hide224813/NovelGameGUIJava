@@ -127,15 +127,15 @@ class CharacterPanel extends JPanel {
         super.paintComponent(g);
         if (characterImage != null) {
             // キャラクター画像の背景を透過する
-            Image bgImage = characterImage.getSubimage(0, 0, characterImage.getWidth(), characterImage.getHeight());
-            ImageIcon icon = new ImageIcon(bgImage);
+            Graphics2D g2d = (Graphics2D) g.create();
             int x = (getWidth() - characterImage.getWidth())/2;
             int y = getHeight() - characterImage.getHeight();
-            setOpaque(false);
-            icon.paintIcon(this, g, x, y);
+            
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)); // 透明度を設定
+            g2d.drawImage(characterImage, x, y+70, this); // 画像をそのまま描画
+            g2d.dispose();
         }
     }
-
     @Override
     public Dimension getPreferredSize() {
         // 背景画像パネルのサイズに合わせる
